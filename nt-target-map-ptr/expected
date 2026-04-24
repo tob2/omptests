@@ -1,3 +1,6 @@
 Able to use offloading!
 Test full extent: Succeeded
+Test full extent with zero length ptrs: Succeeded
+Test full extent struct: Succeeded
 Test3: Succeeded
+Test full extent struct: Succeeded
