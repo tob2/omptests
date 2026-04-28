@@ -52,6 +52,7 @@
 int main ()
 {
   int a[N], b[N], c[N];
+  int any_fail = 0;
 
 #if TEST1
   check_offloading();
@@ -87,6 +88,8 @@ int main ()
 	fail = 1;
       }
     }
+
+    any_fail += fail;
     if (fail)
       printf ("Failed 2\n");
     else
@@ -128,6 +131,7 @@ int main ()
     }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 3\n");
     else
@@ -157,6 +161,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 4\n");
     else
@@ -186,6 +191,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 5\n");
     else
@@ -215,6 +221,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 6\n");
     else
@@ -245,6 +252,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 7\n");
     else
@@ -275,6 +283,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 8\n");
     else
@@ -305,6 +314,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 9\n");
     else
@@ -334,6 +344,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 10\n");
     else
@@ -363,6 +374,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 11\n");
     else
@@ -392,6 +404,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 12\n");
     else
@@ -421,6 +434,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 13\n");
     else
@@ -451,6 +465,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 14\n");
     else
@@ -481,6 +496,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 15\n");
     else
@@ -511,6 +527,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 16\n");
     else
@@ -541,6 +558,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 17\n");
     else
@@ -570,6 +588,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 18\n");
     else
@@ -599,6 +618,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 19\n");
     else
@@ -628,6 +648,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 20\n");
     else
@@ -657,6 +678,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 21\n");
     else
@@ -687,6 +709,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 22\n");
     else
@@ -717,6 +740,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 23\n");
     else
@@ -747,6 +771,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 24\n");
     else
@@ -777,6 +802,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 25\n");
     else
@@ -806,6 +832,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 26\n");
     else
@@ -835,6 +862,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 27\n");
     else
@@ -863,6 +891,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 28\n");
     else
@@ -892,6 +921,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 29\n");
     else
@@ -921,6 +951,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 30\n");
     else
@@ -950,6 +981,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 31\n");
     else
@@ -983,6 +1015,7 @@ int main ()
 	}
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 32\n");
     else
@@ -1012,6 +1045,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 33\n");
     else
@@ -1041,6 +1075,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 34\n");
     else
@@ -1070,6 +1105,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 35\n");
     else
@@ -1099,6 +1135,7 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 36\n");
     else
@@ -1128,11 +1165,12 @@ int main ()
       }
     }
 
+    any_fail += fail;
     if (fail)
       printf ("Failed 37\n");
     else
       printf("Succeeded 37\n");
 #endif
   
-  return 0;
+  return any_fail > 0;
 }
