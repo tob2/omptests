@@ -17,6 +17,7 @@ int main(void) {
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
+  int any_fail = 0;
 
   INIT();
 
@@ -57,7 +58,7 @@ int main(void) {
         }
       }
     }
-  }, VERIFY(0, N, A[i], i + 1));
+  }, { VERIFY(0, N, A[i], i + 1); any_fail += fail; });
 
-  return 0;
+  return any_fail > 0;
 }

@@ -35,7 +35,8 @@ void print(S *s)
   INIT_LOOP(N, {s.A[i] = 1; s.B[i] = i; s.pC[i] = -i; })}
 
 #define VERIFY1(var, val) { if (var != val) { \
-      printf("error with %s, expected %f, got %f\n", #var, var, val); fail++; \
+      printf("error with %s, expected %f, got %f\n", #var, var, val); \
+      fail++; any_fail++; \
   }} 
 
 #define VERIFY_STRUCT(s, aa, bb, cc, dd, ee, ff, xx, yy, zz, AA, BB, CC) {\
@@ -55,11 +56,12 @@ void print(S *s)
 
 #define ZERO(X) ZERO_ARRAY(N, X) 
 
-#define MAP_ALL 0
+#define MAP_ALL 1
 #define MAP_SOME1 1
 
 int main(void) {
-  //check_offloading();
+  check_offloading();
+  int any_fail = 0;
 
   S s1;
 
@@ -89,5 +91,5 @@ int main(void) {
   print(&s1);
 #endif
 
-  return 0;
+  return any_fail ? 1 : 0;
 }
