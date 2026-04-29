@@ -102,6 +102,7 @@ int main(void) {
   check_offloading();
 
   double A[N+2], B[N+2], C[N+2], D[N+2], E[N+2];
+  int any_fail = 0;
 
   INIT();
 
@@ -119,7 +120,7 @@ int main(void) {
   //
   TESTD("omp target teams num_teams(1) thread_limit(32)", {
     PARALLEL_A()
-  }, VERIFY(0, 1, B[i], i+1));
+  }, {VERIFY(0, 1, B[i], i+1); any_fail += fail;});
 
   //
   // Test: Barrier in a parallel region.
@@ -129,7 +130,7 @@ int main(void) {
     TESTD("omp target teams num_teams(1) thread_limit(max_threads)", {
     ZERO(B);
     PARALLEL_B5()
-    }, VERIFY(0, threads[0]-1, B[i], 5));
+    }, {VERIFY(0, threads[0]-1, B[i], 5); any_fail += fail;});
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -142,15 +143,15 @@ int main(void) {
     int threads[1]; threads[0] = t;
     PARALLEL_B()
   }
-  }, VERIFY(0, max_threads-1, B[i], (max_threads / 32) - (i+1) / 32));
+  }, {VERIFY(0, max_threads-1, B[i], (max_threads / 32) - (i+1) / 32); any_fail += fail;});
 
   //
   // Test: Single thread in target region.
   //
-  TESTD("#pragma omp target", {
+  TESTD("omp target", {
   ZERO(B);
   BODY_B()
-  }, VERIFY(0, 1, C[i], 491535));
+  }, {VERIFY(0, 1, C[i], 491535); any_fail += fail;});
 
   //
   // Test: Barrier in target parallel.
@@ -160,7 +161,7 @@ int main(void) {
     int threads; threads = t;
     TESTD("omp target parallel num_threads(threads)", {
       BODY_B();
-    }, VERIFY(0, t-1, B[i], (trial+1)*1.0));
+    }, {VERIFY(0, t-1, B[i], (trial+1)*1.0); any_fail += fail;});
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -172,7 +173,7 @@ int main(void) {
     ZERO(B);
     TEST({
       BODY_NP();
-    }, VERIFY(0, 16*16, B[i], (i > 0 && (i+1) % 16 == 0 ? 0 : (trial+1)*1)) );
+    }, {VERIFY(0, 16*16, B[i], (i > 0 && (i+1) % 16 == 0 ? 0 : (trial+1)*1)); any_fail += fail;} );
   } else {
     DUMP_SUCCESS(1);
   }
@@ -183,4 +184,5 @@ int main(void) {
   // target + simd
   // target/teams/parallel with varying numbers of threads
 
+  return any_fail > 0;
 }

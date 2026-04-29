@@ -31,6 +31,7 @@
 #define PARALLEL125() { PARALLEL25() PARALLEL25() PARALLEL25() PARALLEL25() PARALLEL25() }
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -45,7 +46,7 @@ int main(void) {
      A[i] = 0;
    }
    PARALLEL125()
-  }, VERIFY(0, 512, A[i], 125*(1+i)));
+  }, {VERIFY(0, 512, A[i], 125*(1+i)); any_fail += fail;});
 
-  return 0;
+  return any_fail > 0;
 }

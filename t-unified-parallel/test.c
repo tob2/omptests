@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -40,7 +41,7 @@ int main(void) {
       int tid = omp_get_thread_num();
       A[tid] += tid;
     }
-  }, VERIFY(0, 128, A[i], i*(trial+1)));
+  }, {VERIFY(0, 128, A[i], i*(trial+1)); any_fail += fail;});
 
   //
   // Test: Execute parallel on device
@@ -53,7 +54,7 @@ int main(void) {
         B[j] = D[j] + E[j];
       }
     }
-    }, VERIFY(0, 512, B[i], (double)0));
+    }, {VERIFY(0, 512, B[i], (double)0); any_fail += fail;});
 
   //
   // Test: if clause serial execution of parallel region on target
@@ -65,7 +66,7 @@ int main(void) {
       int tid = omp_get_thread_num();
       A[tid] = tid;
     }
-  }, VERIFY(0, 128, A[i], 0));
+  }, {VERIFY(0, 128, A[i], 0); any_fail += fail;});
 
   //
   // Test: if clause serial execution of parallel region on target
@@ -77,7 +78,7 @@ int main(void) {
       int tid = omp_get_thread_num();
       A[tid] = tid;
     }
-  }, VERIFY(0, 128, A[i], 0));
+  }, {VERIFY(0, 128, A[i], 0); any_fail += fail;});
 
   //
   // Test: if clause parallel execution of parallel region on target
@@ -89,7 +90,7 @@ int main(void) {
       int tid = omp_get_thread_num();
       A[tid] = tid;
     }
-  }, VERIFY(0, 128, A[i], i));
+  }, {VERIFY(0, 128, A[i], i); any_fail += fail;});
 
   //
   // Test: proc_bind clause
@@ -116,7 +117,7 @@ int main(void) {
         B[j] += 1 + D[j] + E[j];
       }
     }
-  }, VERIFY(0, 512, B[i], 3));
+  }, {VERIFY(0, 512, B[i], 3); any_fail += fail;});
 
   //
   // Test: num_threads on parallel.
@@ -134,7 +135,7 @@ int main(void) {
         int tid = omp_get_thread_num();
         A[tid] = 99;
       }
-    }, VERIFY(0, 128, A[i], 99*(i < t)));
+    }, {VERIFY(0, 128, A[i], 99*(i < t)); any_fail += fail;});
   }
 
   //
@@ -152,7 +153,7 @@ int main(void) {
       A[0] += tmp;
     }
   A[0] += tmp;
-  }, VERIFY(0, 1, A[i], 5));
+  }, {VERIFY(0, 1, A[i], 5); any_fail += fail;});
 
   //
   // Test: private clause on parallel region.
@@ -169,7 +170,7 @@ int main(void) {
       A[0] += tmp;
     }
   A[0] += tmp;
-  }, VERIFY(0, 1, A[i], 4));
+  }, {VERIFY(0, 1, A[i], 4); any_fail += fail;});
 
   //
   // Test: firstprivate clause on parallel region.
@@ -186,7 +187,7 @@ int main(void) {
       A[0] += tmp;
     }
   A[0] += tmp;
-  }, VERIFY(0, 1, A[i], 5));
+  }, {VERIFY(0, 1, A[i], 5); any_fail += fail;});
 
   //
   // Test: shared clause on parallel region.
@@ -205,7 +206,7 @@ int main(void) {
       A[0] += tmp;
     }
   A[0] += tmp + distance;
-  }, VERIFY(0, 1, A[i], 65));
+  }, {VERIFY(0, 1, A[i], 65); any_fail += fail;});
 
   //
   // Test: sharing of array from master to parallel region.
@@ -227,7 +228,7 @@ int main(void) {
   for (int i = 0; i < 128; i++) {
     A[i] += B[i];
   }
-  }, VERIFY(0, 128, A[i], 103));
+  }, {VERIFY(0, 128, A[i], 103); any_fail += fail;});
 
   //
   // Test: array private clause on parallel region.
@@ -249,7 +250,7 @@ int main(void) {
   for (int i = 0; i < 128; i++) {
     A[i] += B[i];
   }
-  }, VERIFY(0, 128, A[i], 101));
+  }, {VERIFY(0, 128, A[i], 101); any_fail += fail;});
 
   //
   // Test: array firstprivate clause on parallel region.
@@ -271,7 +272,7 @@ int main(void) {
   for (int i = 0; i < 128; i++) {
     A[i] += B[i];
   }
-  }, VERIFY(0, 128, A[i], 111));
+  }, {VERIFY(0, 128, A[i], 111); any_fail += fail;});
 
   //
   // Test: array shared clause on parallel region.
@@ -293,7 +294,7 @@ int main(void) {
       A[0] += B[0] + distance[30];
     }
   A[0] += B[0] + distance[30];
-  }, VERIFY(0, 1, A[i], 171));
+  }, {VERIFY(0, 1, A[i], 171); any_fail += fail;});
 
   struct CITY {
     char name[128];
@@ -328,7 +329,7 @@ int main(void) {
       int tid = omp_get_thread_num();
       data.A[1+tid] += 1+tid + (int) data.city.name[1] + data.city.distance_to_nyc;
     }
-  }, VERIFY(0, 128, data.A[i], (132 + i)*(trial+1)));
+  }, {VERIFY(0, 128, data.A[i], (132 + i)*(trial+1)); any_fail += fail;});
 
   //
   // Test: sharing of struct from master to parallel region.
@@ -350,7 +351,7 @@ int main(void) {
   for (int i = 0; i < 128; i++) {
     data.A[i] += data.B[i];
   }
-  }, VERIFY(0, 128, data.A[i], 103));
+  }, {VERIFY(0, 128, data.A[i], 103); any_fail += fail;});
 
   //
   // Test: struct private clause on parallel region.
@@ -372,7 +373,7 @@ int main(void) {
   for (int i = 0; i < 128; i++) {
     data.A[i] += data.B[i];
   }
-  }, VERIFY(0, 1, data.A[i], 100));
+  }, {VERIFY(0, 1, data.A[i], 100); any_fail += fail;});
 
   //
   // Test: struct firstprivate clause on parallel region.
@@ -393,7 +394,7 @@ int main(void) {
       tmp = data.A[0];
     }
   data.A[0] += data.B[0] + tmp;
-  }, VERIFY(0, 1, data.A[i], 210));
+  }, {VERIFY(0, 1, data.A[i], 210); any_fail += fail;});
 
   //
   // Test: struct shared clause on parallel region.
@@ -415,7 +416,7 @@ int main(void) {
       A[0] += B[0] + city.distance_to_nyc;
     }
   A[0] += B[0] + city.distance_to_nyc;
-  }, VERIFY(0, 1, A[i], 171));
+  }, {VERIFY(0, 1, A[i], 171); any_fail += fail;});
 
-  return 0;
+  return any_fail > 0;
 }

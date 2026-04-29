@@ -31,6 +31,7 @@
 //
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -74,7 +75,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
     {
@@ -94,7 +95,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
     {
@@ -114,7 +115,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
     {
@@ -134,7 +135,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
     {
@@ -154,7 +155,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
     {
@@ -174,7 +175,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
     {
@@ -194,7 +195,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
     {
@@ -214,7 +215,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
     {
@@ -234,7 +235,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -261,7 +262,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
     {
@@ -281,7 +282,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
     {
@@ -301,7 +302,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
     {
@@ -321,7 +322,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
     {
@@ -341,7 +342,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
     {
@@ -361,7 +362,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
     {
@@ -381,7 +382,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
     {
@@ -401,7 +402,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
     {
@@ -421,7 +422,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -448,7 +449,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
     {
@@ -468,7 +469,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
     {
@@ -488,7 +489,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
     {
@@ -508,7 +509,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
     {
@@ -528,7 +529,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
     {
@@ -548,7 +549,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
     {
@@ -568,7 +569,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
     {
@@ -588,7 +589,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
     {
@@ -608,7 +609,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -643,7 +644,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
       double p = 2; \
@@ -666,7 +667,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
       double p = 2; \
@@ -689,7 +690,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
       double p = 2; \
@@ -712,7 +713,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
       double p = 2; \
@@ -735,7 +736,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
       double p = 2; \
@@ -758,7 +759,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
       double p = 2; \
@@ -781,7 +782,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
       double p = 2; \
@@ -804,7 +805,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
       double p = 2; \
@@ -827,7 +828,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + N/2*(N+1)))
+    {VERIFY(0, 1, S[0], 6 + N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -862,7 +863,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
       double p = -4; \
@@ -887,7 +888,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
       double p = -4; \
@@ -912,7 +913,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
       double p = -4; \
@@ -937,7 +938,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
       double p = -4; \
@@ -962,7 +963,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
       double p = -4; \
@@ -987,7 +988,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
       double p = -4; \
@@ -1012,7 +1013,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
       double p = -4; \
@@ -1037,7 +1038,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
       double p = -4; \
@@ -1062,7 +1063,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -1100,7 +1101,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], N+1+ N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N+1+ N/2*(N+1)); any_fail += fail;})
   }
 
   FIXME: private of non-scalar does not work.
@@ -1133,7 +1134,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   FIXME: private of non-scalar does not work.
@@ -1168,7 +1169,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 #endif
 
@@ -1200,7 +1201,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
       S[0] = 0; \
@@ -1222,7 +1223,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
       S[0] = 0; \
@@ -1244,7 +1245,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
       S[0] = 0; \
@@ -1266,7 +1267,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
       S[0] = 0; \
@@ -1288,7 +1289,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
       S[0] = 0; \
@@ -1310,7 +1311,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
       S[0] = 0; \
@@ -1332,7 +1333,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
       S[0] = 0; \
@@ -1354,7 +1355,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
       S[0] = 0; \
@@ -1376,7 +1377,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], (N/2*(N+1))); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -1398,7 +1399,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
       S[0] = 0; \
@@ -1410,7 +1411,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR3(
       S[0] = 0; \
@@ -1422,7 +1423,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR4(
       S[0] = 0; \
@@ -1434,7 +1435,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR5(
       S[0] = 0; \
@@ -1446,7 +1447,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR6(
       S[0] = 0; \
@@ -1458,7 +1459,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
       S[0] = 0; \
@@ -1470,7 +1471,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR8(
       S[0] = 0; \
@@ -1482,7 +1483,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
 
     TARGET_PARALLEL_FOR9(
       S[0] = 0; \
@@ -1494,7 +1495,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], N/2*(N+1)))
+    {VERIFY(0, 1, S[0], N/2*(N+1)); any_fail += fail;})
   }
   DUMP_SUCCESS9()
 
@@ -1523,7 +1524,7 @@ int main(void) {
       }
       S[0] = tmp;
     },
-    VERIFY(0, 1, S[0], (32*32 + 64*32) ))
+    {VERIFY(0, 1, S[0], (32*32 + 64*32) ); any_fail += fail;})
 
     TARGET_PARALLEL_FOR2(
       S[0] = 0; \
@@ -1542,7 +1543,7 @@ int main(void) {
       }
       S[0] = tmp;
     },
-    VERIFY(0, 1, S[0], (32*32 + 64*32) ))
+    {VERIFY(0, 1, S[0], (32*32 + 64*32) ); any_fail += fail;})
 
     TARGET_PARALLEL_FOR7(
       S[0] = 0; \
@@ -1561,11 +1562,11 @@ int main(void) {
       }
       S[0] = tmp;
     },
-    VERIFY(0, 1, S[0], (32*32 + 64*32) ))
+    {VERIFY(0, 1, S[0], (32*32 + 64*32) ); any_fail += fail;})
   } else {
     DUMP_SUCCESS(3);
   }
 
-  return 0;
+  return any_fail > 0;
 }
 

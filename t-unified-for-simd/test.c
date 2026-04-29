@@ -53,6 +53,7 @@
 
 int main ()
 {
+  int any_fail = 0;
   int a[N], b[N], c[N];
 
 #if TEST1
@@ -93,6 +94,7 @@ int main ()
       printf ("Failed 2\n");
     else
       printf("Succeeded 2\n");
+    any_fail += fail;
 #endif
 
 #if TEST3
@@ -134,6 +136,7 @@ int main ()
       printf ("Failed 3\n");
     else
       printf("Succeeded 3\n");
+    any_fail += fail;
 #endif
 
 #if TEST4
@@ -163,6 +166,7 @@ int main ()
       printf ("Failed 4\n");
     else
       printf("Succeeded 4\n");
+    any_fail += fail;
 #endif
 
 #if TEST5
@@ -192,6 +196,7 @@ int main ()
       printf ("Failed 5\n");
     else
       printf("Succeeded 5\n");  
+    any_fail += fail;
 #endif
 
 #if TEST6
@@ -221,6 +226,7 @@ int main ()
       printf ("Failed 6\n");
     else
       printf("Succeeded 6\n");  
+    any_fail += fail;
 #endif
 
 #if TEST7
@@ -251,6 +257,7 @@ int main ()
       printf ("Failed 7\n");
     else
       printf("Succeeded 7\n");
+    any_fail += fail;
 #endif
 
 #if TEST8
@@ -281,6 +288,7 @@ int main ()
       printf ("Failed 8\n");
     else
       printf("Succeeded 8\n");
+    any_fail += fail;
 #endif
 
 #if TEST9
@@ -311,6 +319,7 @@ int main ()
       printf ("Failed 9\n");
     else
       printf("Succeeded 9\n");
+    any_fail += fail;
 #endif
 
 #if TEST10
@@ -340,6 +349,7 @@ int main ()
       printf ("Failed 10\n");
     else
       printf("Succeeded 10\n");
+    any_fail += fail;
 #endif
 
 #if TEST11 && TEST_BROKEN // hangs
@@ -369,6 +379,7 @@ int main ()
       printf ("Failed 11\n");
     else
       printf("Succeeded 11\n");
+    any_fail += fail;
 #endif
 
 #if TEST12 && TEST_BROKEN // hangs
@@ -398,6 +409,7 @@ int main ()
       printf ("Failed 12\n");
     else
       printf("Succeeded 12\n");
+    any_fail += fail;
 #endif
 
 #if TEST13
@@ -427,6 +439,7 @@ int main ()
       printf ("Failed 13\n");
     else
       printf("Succeeded 13\n");
+    any_fail += fail;
 #endif
 
 #if TEST14
@@ -457,6 +470,7 @@ int main ()
       printf ("Failed 14\n");
     else
       printf("Succeeded 14\n");
+    any_fail += fail;
 #endif
 
 #if TEST15 && TEST_BROKEN
@@ -487,6 +501,7 @@ int main ()
       printf ("Failed 15\n");
     else
       printf("Succeeded 15\n");
+    any_fail += fail;
 #endif
 
 #if TEST16 && TEST_BROKEN
@@ -517,6 +532,7 @@ int main ()
       printf ("Failed 16\n");
     else
       printf("Succeeded 16\n");
+    any_fail += fail;
 #endif
 
 #if TEST17
@@ -547,6 +563,7 @@ int main ()
       printf ("Failed 17\n");
     else
       printf("Succeeded 17\n");
+    any_fail += fail;
 #endif
 
 #if TEST18
@@ -576,6 +593,7 @@ int main ()
       printf ("Failed 18\n");
     else
       printf("Succeeded 18\n");
+    any_fail += fail;
 #endif
 
 #if TEST19 && TEST_BROKEN
@@ -605,6 +623,7 @@ int main ()
       printf ("Failed 19\n");
     else
       printf("Succeeded 19\n");
+    any_fail += fail;
 #endif
 
 #if TEST20 && TEST_BROKEN
@@ -634,6 +653,7 @@ int main ()
       printf ("Failed 20\n");
     else
       printf("Succeeded 20\n");
+    any_fail += fail;
 #endif
 
 #if TEST21
@@ -663,6 +683,7 @@ int main ()
       printf ("Failed 21\n");
     else
       printf("Succeeded 21\n");
+    any_fail += fail;
 #endif
 
 #if TEST22
@@ -693,6 +714,7 @@ int main ()
       printf ("Failed 22\n");
     else
       printf("Succeeded 22\n");
+    any_fail += fail;
 #endif
 
 #if TEST23 && TEST_BROKEN
@@ -723,6 +745,7 @@ int main ()
       printf ("Failed 23\n");
     else
       printf("Succeeded 23\n");
+    any_fail += fail;
 #endif
 
 #if TEST24 && TEST_BROKEN
@@ -753,6 +776,7 @@ int main ()
       printf ("Failed 24\n");
     else
       printf("Succeeded 24\n");
+    any_fail += fail;
 #endif
 
 #if TEST25
@@ -783,6 +807,7 @@ int main ()
       printf ("Failed 25\n");
     else
       printf("Succeeded 25\n");
+    any_fail += fail;
 #endif
 
 #if TEST26
@@ -812,6 +837,7 @@ int main ()
       printf ("Failed 26\n");
     else
       printf("Succeeded 26\n");
+    any_fail += fail;
 #endif
 
 #if TEST27
@@ -841,6 +867,7 @@ int main ()
       printf ("Failed 27\n");
     else
       printf("Succeeded 27\n");
+    any_fail += fail;
 #endif
 
 #if TEST28
@@ -869,6 +896,7 @@ int main ()
       printf ("Failed 28\n");
     else
       printf("Succeeded 28\n");
+    any_fail += fail;
 #endif
 
 #if TEST29
@@ -898,6 +926,7 @@ int main ()
       printf ("Failed 29\n");
     else
       printf("Succeeded 29\n");
+    any_fail += fail;
 #endif
 
 #if TEST30 && TEST_BROKEN
@@ -927,6 +956,7 @@ int main ()
       printf ("Failed 30\n");
     else
       printf("Succeeded 30\n");
+    any_fail += fail;
 #endif
 
 #if TEST31
@@ -956,6 +986,7 @@ int main ()
       printf ("Failed 31\n");
     else
       printf("Succeeded 31\n");
+    any_fail += fail;
 #endif
 
 #if TEST32
@@ -989,6 +1020,7 @@ int main ()
       printf ("Failed 32\n");
     else
       printf("Succeeded 32\n");
+    any_fail += fail;
 #endif
 
 #if TEST33
@@ -1018,6 +1050,7 @@ int main ()
       printf ("Failed 33\n");
     else
       printf("Succeeded 33\n");
+    any_fail += fail;
 #endif
 
 #if TEST34
@@ -1047,6 +1080,7 @@ int main ()
       printf ("Failed 34\n");
     else
       printf("Succeeded 34\n");
+    any_fail += fail;
 #endif
 
 #if TEST35
@@ -1076,6 +1110,7 @@ int main ()
       printf ("Failed 35\n");
     else
       printf("Succeeded 35\n");
+    any_fail += fail;
 #endif
 
 #if TEST36
@@ -1105,6 +1140,7 @@ int main ()
       printf ("Failed 36\n");
     else
       printf("Succeeded 36\n");
+    any_fail += fail;
 #endif
 
 #if TEST37
@@ -1134,7 +1170,8 @@ int main ()
       printf ("Failed 37\n");
     else
       printf("Succeeded 37\n");
+    any_fail += fail;
 #endif
   
-  return 0;
+  return any_fail > 0;
 }

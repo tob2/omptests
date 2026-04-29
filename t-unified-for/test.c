@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -54,7 +55,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -87,7 +88,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -122,7 +123,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -195,7 +196,7 @@ int main(void) {
         tmp += A[i] + B[i];
       }
       S[0] += tmp;
-    }, VERIFY(0, 1, S[0], 5 * (N + (N/2*(N+1))) ));
+    }, {VERIFY(0, 1, S[0], 5 * (N + (N/2*(N+1))) ); any_fail += fail;});
   }
 
   //
@@ -227,7 +228,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -261,7 +262,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -292,7 +293,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -313,7 +314,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -346,7 +347,7 @@ int main(void) {
           S[0] += tmp;
         }
       }
-    }, VERIFY(0, 1, S[0], (N/2*(N+1)) ));
+    }, {VERIFY(0, 1, S[0], (N/2*(N+1)) ); any_fail += fail;});
   }
   //
   // Test: Ensure coalesced scheduling on GPU.
@@ -397,7 +398,7 @@ int main(void) {
         tmp += A[i];
       }
       S[0] = tmp;
-    }, VERIFY(0, 1, S[0], 3 * ( 99 * 98 * 0.5 - 3 * 0.5 * nthreads * (nthreads - 1) - 0.5 * residual * (residual - 1)) ));
+    }, {VERIFY(0, 1, S[0], 3 * ( 99 * 98 * 0.5 - 3 * 0.5 * nthreads * (nthreads - 1) - 0.5 * residual * (residual - 1)) ); any_fail += fail;});
   } else {
     DUMP_SUCCESS(1);
   }
@@ -429,7 +430,7 @@ int main(void) {
           A[i] += C[i] + D[i];
         }
       }
-    }, VERIFY(0, N, A[i], 2*i+2) );
+    }, {VERIFY(0, N, A[i], 2*i+2); any_fail += fail;} );
   } else {
     DUMP_SUCCESS(1);
   }
