@@ -44,6 +44,7 @@ void tadd_dpf1(T *a, T *b, T *c, int n, int sch) {
 #pragma omp end declare target
 
 int main() {
+  int any_fail = 0;
   check_offloading();
 
   int cpuExec = 0;
@@ -224,9 +225,11 @@ int main() {
       }
     }
 
-    if (OUT + num_tests != EXPECTED[e++])
+    if (OUT + num_tests != EXPECTED[e++]) {
       printf ("Failed test with num_threads = %d, OUT + num_tests = %ld\n",
               t, OUT + num_tests);
+      any_fail++;
+    }
     else
       printf ("Succeeded\n");
   }
@@ -250,9 +253,11 @@ int main() {
         }
     }
 
-    if (OUT + num_tests != EXPECTED[e++])
+    if (OUT + num_tests != EXPECTED[e++]) {
       printf ("Failed test with num_threads = %d, OUT + num_tests = %ld\n",
               t, OUT + num_tests);
+      any_fail++;
+    }
     else
       printf ("Succeeded\n");
   }
@@ -269,11 +274,13 @@ int main() {
             N, Ad, Bd, Cd, &OUT, &num_tests);
   }
 
-  if (OUT + num_tests != 1)
+  if (OUT + num_tests != 1) {
     printf ("Failed test with OUT + num_tests = %ld\n",
             OUT + num_tests);
+    any_fail++;
+  }
   else
     printf ("Succeeded\n");
 
-  return OUT + num_tests != 1;
+  return any_fail > 0;
 }
