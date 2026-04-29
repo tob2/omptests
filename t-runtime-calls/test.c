@@ -21,6 +21,7 @@
 //
 
 int main(void) {
+  int any_fail = 0;
   // CHECK: Able to use offloading!
   check_offloading();
 
@@ -41,7 +42,7 @@ int main(void) {
         A[0] += omp_get_num_threads();  // 128
       }
     }
-  }, VERIFY(0, 1, A[i], 129));
+  }, {VERIFY(0, 1, A[i], 129); any_fail += fail;});
 
   //
   // Test: omp_get_max_threads() (depends on device type)
@@ -57,7 +58,7 @@ int main(void) {
 	    A[1] = omp_get_num_threads();
 	  }
       }
-    }, if (!omp_is_initial_device()) VERIFY(0, 1, A[i], A[1] + 1));
+    }, if (!omp_is_initial_device()) {VERIFY(0, 1, A[i], A[1] + 1); any_fail += fail;});
   //
   // Test: omp_get_num_procs()
   //
@@ -72,7 +73,7 @@ int main(void) {
         A[1] = 2*omp_get_num_threads();
       }
     }
-  }, VERIFY(0, 1, A[i], A[1]));
+  }, {VERIFY(0, 1, A[i], A[1]); any_fail += fail;});
   
   //
   // Test: omp_in_parallel()
@@ -81,24 +82,24 @@ int main(void) {
   TEST({
   _Pragma("omp distribute dist_schedule(static,1)")
     for (int i = 0; i < 1; ++i) {
-      _Pragma("atomic write")
+      _Pragma("omp atomic write")
         A[0] = omp_in_parallel();  // 0
     }
    // Serialized parallel
   _Pragma("omp parallel num_threads(32) if (A[0] == 1)")
     {
-      _Pragma("atomic update")
+      _Pragma("omp atomic update")
         A[0] += omp_in_parallel();  // 0
     }
     // Parallel execution
   _Pragma("omp parallel num_threads(32) if (A[0] == 0)")
     {
       if (omp_get_thread_num() == 0) {
-        _Pragma("atomic update")
+        _Pragma("omp atomic update")
           A[0] += omp_in_parallel();  // 1
       }
     }
-  }, VERIFY(0, 1, A[i], 1));
+  }, {VERIFY(0, 1, A[i], 1); any_fail += fail;});
 
   //
   // Test: omp_set/get_dynamic()
@@ -122,7 +123,7 @@ int main(void) {
   _Pragma("omp distribute dist_schedule(static,1)")
   for (int i = 0; i < 1; ++i)
     A[0] += omp_get_dynamic();  // 1
-  }, VERIFY(0, 1, A[i], 3));
+  }, {VERIFY(0, 1, A[i], 3); any_fail += fail;});
 
   //
   // Test: omp_get_cancellation()
@@ -138,7 +139,7 @@ int main(void) {
         A[0] += omp_get_cancellation();  // 0
       }
     }
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 
   //
   // Test: omp_set/get_nested().  Not used on the device currently.
@@ -160,7 +161,7 @@ int main(void) {
     }
   _Pragma("omp parallel if(0)")
     A[0] += omp_get_nested();  // 0
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 
   //
   // Test: omp_set/get_schedule().
@@ -216,7 +217,7 @@ int main(void) {
     _Pragma("omp parallel if(0)")
       omp_get_schedule(&t, &chunk_size);  // should read 1, 10;
     A[0] += t + chunk_size;
-  }, VERIFY(0, 1, A[i], result));
+  }, {VERIFY(0, 1, A[i], result); any_fail += fail;});
 
   //
   // Test: omp_get_thread_limit()
@@ -233,7 +234,7 @@ int main(void) {
         A[1] = 2*omp_get_num_threads();
       }
     }
-  }, VERIFY(0, 1, A[i], A[1]));
+  }, {VERIFY(0, 1, A[i], A[1]); any_fail += fail;});
 
   //
   // Test: omp_set/get_max_active_levels()
@@ -252,7 +253,7 @@ int main(void) {
         A[0] += omp_get_max_active_levels();  // 1
       }
     }
-  }, VERIFY(0, 1, A[i], 2));
+  }, {VERIFY(0, 1, A[i], 2); any_fail += fail;});
 
   //
   // Test: omp_get_level()
@@ -268,7 +269,7 @@ int main(void) {
         A[0] += omp_get_level();  // 1
       }
     }
-  }, VERIFY(0, 1, A[i], 1));
+  }, {VERIFY(0, 1, A[i], 1); any_fail += fail;});
 
   //
   // Test: omp_get_ancestor_thread_num()
@@ -283,7 +284,7 @@ int main(void) {
 	  A[0] += omp_get_ancestor_thread_num(0) + omp_get_ancestor_thread_num(1);  // 0 + 18
 	}
       }
-    }, VERIFY(0, 1, A[i], 0));
+    }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 
   //
   // Test: omp_get_team_size()
@@ -298,7 +299,7 @@ int main(void) {
         A[0] += omp_get_team_size(0) + omp_get_team_size(1);  // 1 + 19
       }
     }
-    }, if (!omp_is_initial_device()) VERIFY(0, 1, A[i], 22)); // TODO: fix host execution
+    }, if (!omp_is_initial_device()) {VERIFY(0, 1, A[i], 22); any_fail += fail;}); // TODO: fix host execution
   //
   // Test: omp_get_active_level()
   //
@@ -315,7 +316,7 @@ int main(void) {
           A[0] += omp_get_active_level();  // 1
       }
     }
-  }, VERIFY(0, 1, A[i], 1));
+  }, {VERIFY(0, 1, A[i], 1); any_fail += fail;});
 
   //
   // Test: omp_in_final()
@@ -330,7 +331,7 @@ int main(void) {
 	  A[0] += omp_in_final();  // 1  always returns true.
 	}
       }
-    }, VERIFY(0, 1, A[i], omp_is_initial_device() ? 0 : 2));
+    }, {VERIFY(0, 1, A[i], omp_is_initial_device() ? 0 : 2); any_fail += fail;});
 
   //
   // Test: omp_get_proc_bind()
@@ -345,7 +346,7 @@ int main(void) {
         A[0] += omp_get_proc_bind();  // 1  always returns omp_proc_bind_true.
       }
     }
-    },  VERIFY(0, 1, A[i], omp_is_initial_device() ? 0 : 2));
+    },  {VERIFY(0, 1, A[i], omp_is_initial_device() ? 0 : 2); any_fail += fail;});
 
 #if 0
   //
@@ -364,7 +365,7 @@ int main(void) {
       int *place_nums;
       omp_get_partition_place_nums(place_nums);
     }
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 #endif
 
   //
@@ -384,7 +385,7 @@ int main(void) {
         A[0] += omp_get_default_device();  // 0  always returns 0.
       }
     }
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 
   //
   // Test: omp_get_num_devices(). Undefined on the target.
@@ -399,7 +400,7 @@ int main(void) {
         A[1] = omp_get_num_devices();
       }
     }
-  }, VERIFY(0, 1, A[i], A[i] - A[1]));
+  }, {VERIFY(0, 1, A[i], A[i] - A[1]); any_fail += fail;});
 
   //
   // Test: omp_get_num_teams(), omp_get_team_num()
@@ -416,7 +417,7 @@ int main(void) {
         A[0] += omp_get_team_num();   // 0
       }
     }
-  }, VERIFY(0, 1, A[i], 2));
+  }, {VERIFY(0, 1, A[i], 2); any_fail += fail;});
 
   //
   // Test: omp_is_initial_device()
@@ -432,7 +433,7 @@ int main(void) {
         A[0] += omp_is_initial_device();  // 0
       }
     }
-    }, VERIFY(0, 1, A[i], omp_is_initial_device() ? A[1] - A[1] : 2.0));
+    }, {VERIFY(0, 1, A[i], omp_is_initial_device() ? A[1] - A[1] : 2.0); any_fail += fail;});
 
   return 0;
 
@@ -451,7 +452,7 @@ int main(void) {
         A[0] -= omp_get_initial_device();
       }
     }
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 #endif
 
 #if 0
@@ -469,7 +470,7 @@ int main(void) {
         A[0] -= omp_get_max_task_priority();
       }
     }
-  }, VERIFY(0, 1, A[i], 0));
+  }, {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 #endif
 
 
@@ -487,7 +488,7 @@ int main(void) {
       start = omp_get_wtime();
       end = omp_get_wtime();
     }
-  }, VERIFY(0, 1, A[i], 0));
+  },  {VERIFY(0, 1, A[i], 0); any_fail += fail;});
 
-  return 0;
+  return any_fail > 0;
 }

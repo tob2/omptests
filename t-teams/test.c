@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -42,6 +43,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: thread_limit and omp_get_thread_num()
@@ -65,6 +67,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
 
   //
@@ -101,6 +104,7 @@ int main(void) {
   }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   /* // */
   /* // Test: num_teams and thread_limit by simulating a distribute pragma */
@@ -143,6 +147,7 @@ int main(void) {
   /* } */
   /* if(fail) printf("Failed\n"); */
   /* else printf("Succeeded\n"); */
+  /* any_fail += fail; */
 
   //
   // Test: private
@@ -167,6 +172,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   ZERO(A);
   fail = 0;
@@ -188,6 +194,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   ZERO(A);
   fail = 0;
@@ -209,6 +216,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   ZERO(A);
   fail = 0;
@@ -230,6 +238,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
-  return 0;
+  return any_fail;
 }

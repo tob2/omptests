@@ -15,6 +15,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -36,7 +37,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(max_threads)", {
     int tid = omp_get_thread_num();
     A[tid] += tid;
-  }, VERIFY(0,  max_threads, A[i], i*(trial+1)));
+  }, {VERIFY(0,  max_threads, A[i], i*(trial+1)); any_fail += fail;});
 
   //
   // Test: Execute parallel on device
@@ -46,7 +47,7 @@ int main(void) {
       for (int j = i; j < i + 4; j++) {
         B[j] = D[j] + E[j];
       }
-    }, VERIFY(0, max_threads*4, B[i], (double)0));
+    }, {VERIFY(0, max_threads*4, B[i], (double)0); any_fail += fail;});
 
   //
   // Test: if clause serial execution of parallel region on host
@@ -55,7 +56,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(max_threads) if(0)", {
       int tid = omp_get_thread_num();
       A[tid] = tid;
-  }, VERIFY(0, max_threads, A[i], 0));
+  }, {VERIFY(0, max_threads, A[i], 0); any_fail += fail;});
 
   //
   // Test: if clause parallel execution of parallel region on device
@@ -64,7 +65,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(max_threads) if(A[0] == 0)", {
       int tid = omp_get_thread_num();
       A[tid] = tid + omp_is_initial_device();
-  }, VERIFY(0, max_threads, A[i], i + cpuExec));
+  }, {VERIFY(0, max_threads, A[i], i + cpuExec); any_fail += fail;});
 
   //
   // Test: if clause serial execution of parallel region on device
@@ -73,7 +74,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(max_threads) if(parallel: 0)", {
       int tid = omp_get_thread_num();
       A[tid] = !omp_is_initial_device();
-  }, VERIFY(0, max_threads, A[i], i == 0 ? 1 - cpuExec : 0));
+  }, {VERIFY(0, max_threads, A[i], i == 0 ? 1 - cpuExec : 0); any_fail += fail;});
 
 
   //
@@ -83,7 +84,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(max_threads) if(target: 0) if(parallel: A[0] == 0)", {
       int tid = omp_get_thread_num();
       A[tid] = tid + omp_is_initial_device();
-  }, VERIFY(0, /* bound to */ cpu_threads, A[i], i+1));
+  }, {VERIFY(0, /* bound to */ cpu_threads, A[i], i+1); any_fail += fail;});
 
 
   //
@@ -93,7 +94,7 @@ int main(void) {
   TESTD("omp target parallel if(parallel: A[0] > 0)", {
       int tid = omp_get_thread_num();
       A[tid] = omp_get_num_threads();
-  }, VERIFY(0, 1, A[0], 1));
+  }, {VERIFY(0, 1, A[0], 1); any_fail += fail;});
 
   //
   // Test: if clause parallel execution of parallel region on device without num_threads clause
@@ -108,7 +109,7 @@ int main(void) {
   TESTD("omp target parallel if(parallel: A[0] == 0)", {
       int tid = omp_get_thread_num();
       A[tid] = omp_get_num_threads();
-  }, VERIFY(0, 1, A[0], B[0]));
+  }, {VERIFY(0, 1, A[0], B[0]); any_fail += fail;});
 
   //
   // Test: if clause parallel execution of parallel region on device with num_threads clause
@@ -117,7 +118,7 @@ int main(void) {
   TESTD("omp target parallel num_threads(1) if(parallel: A[0] == 0)", {
       int tid = omp_get_thread_num();
       A[tid] = omp_get_num_threads();
-  }, VERIFY(0, 1, A[0], 1));
+  }, {VERIFY(0, 1, A[0], 1); any_fail += fail;});
 
   //
   // Test: proc_bind clause
@@ -127,19 +128,19 @@ int main(void) {
       for (int j = i; j < i + 4; j++) {
         B[j] = 1 + D[j] + E[j];
       }
-  }, VERIFY(0, max_threads*4, B[i], 1));
+  }, {VERIFY(0, max_threads*4, B[i], 1); any_fail += fail;});
   TESTD("omp target parallel num_threads(max_threads) proc_bind(close)", {
       int i = omp_get_thread_num()*4;
       for (int j = i; j < i + 4; j++) {
         B[j] = 1 + D[j] + E[j];
       }
-  }, VERIFY(0, max_threads*4, B[i], 1));
+  }, {VERIFY(0, max_threads*4, B[i], 1); any_fail += fail;});
   TESTD("omp target parallel num_threads(max_threads) proc_bind(spread)", {
       int i = omp_get_thread_num()*4;
       for (int j = i; j < i + 4; j++) {
         B[j] = 1 + D[j] + E[j];
       }
-  }, VERIFY(0, max_threads*4, B[i], 1));
+  }, {VERIFY(0, max_threads*4, B[i], 1); any_fail += fail;});
 
   //
   // Test: num_threads on parallel.
@@ -150,7 +151,7 @@ int main(void) {
     TESTD("omp target parallel num_threads(threads[0])", {
         int tid = omp_get_thread_num();
         A[tid] = 99;
-    }, VERIFY(0, 128, A[i], 99*(i < t)));
+    }, {VERIFY(0, 128, A[i], 99*(i < t)); any_fail += fail;});
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -164,7 +165,7 @@ int main(void) {
     TESTD("omp target parallel map(tofrom: tmp) num_threads(1)", {
         tmp = 2;
         A[0] += tmp;
-    }, VERIFY(0, 1, A[i]+tmp, (1+trial)*2+1+2));
+    }, {VERIFY(0, 1, A[i]+tmp, (1+trial)*2+1+2); any_fail += fail;});
   }
 
   //
@@ -179,7 +180,7 @@ int main(void) {
         p[0] = 2;
         q = 0;
         A[0] += p[0];
-    }, VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*2+2+99));
+    }, {VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*2+2+99); any_fail += fail;});
   }
 
   //
@@ -194,7 +195,7 @@ int main(void) {
         A[0] += p[0] + q;
         p[0] = 2;
         q = 0;
-    }, VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*(99+5)+5+5+99));
+    }, {VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*(99+5)+5+5+99); any_fail += fail;});
   }
 
 #if 0
@@ -217,9 +218,9 @@ int main(void) {
           A[0] += p[0] + q;
         _Pragma("omp barrier")
         p[0] = 1; q = -100;
-    }, VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*(99+2)+5+-7));
+    }, {VERIFY(0, 1, A[i]+p[0]+q, (1+trial)*(99+2)+5+-7); any_fail += fail;});
   }
 #endif
 
-  return 0;
+  return any_fail > 0;
 }
