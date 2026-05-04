@@ -90,6 +90,7 @@ INIT1 + INIT2 + \
 }
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double Ad[N], Bd[N], Cd[N], Dd[N], Ed[N];
@@ -138,7 +139,7 @@ int main(void) {
       },
       {
         REDUCTION_FINAL();
-      }, VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+      }, {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
   }
 
   //
@@ -163,7 +164,7 @@ int main(void) {
       },
       {
         REDUCTION_FINAL();
-      }, VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+      }, {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
   }
 
   //
@@ -186,7 +187,7 @@ int main(void) {
       },
       {
         REDUCTION_FINAL();
-      }, VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+      }, {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
   }
 
   //
@@ -210,7 +211,7 @@ int main(void) {
       },
       {
         REDUCTION_FINAL();
-      }, VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+      }, {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
   }
 
   //
@@ -233,7 +234,7 @@ int main(void) {
     },
     {
       REDUCTION_FINAL();
-    }, VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+    }, {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
 
   //
   // Test: reduction on target teams distribute parallel for.
@@ -249,7 +250,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -267,7 +268,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -286,7 +287,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -305,7 +306,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -324,7 +325,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -343,7 +344,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -361,7 +362,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -380,7 +381,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -400,7 +401,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -420,7 +421,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -440,7 +441,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -460,7 +461,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -480,7 +481,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -500,7 +501,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -520,7 +521,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -540,7 +541,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -562,7 +563,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -583,7 +584,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -605,7 +606,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -627,7 +628,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -649,7 +650,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -671,7 +672,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -692,7 +693,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -714,7 +715,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -737,7 +738,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -760,7 +761,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -783,7 +784,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -806,7 +807,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -829,7 +830,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -852,7 +853,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -875,7 +876,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -898,7 +899,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -917,7 +918,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -935,7 +936,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -954,7 +955,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -973,7 +974,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -992,7 +993,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1011,7 +1012,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1029,7 +1030,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1048,7 +1049,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1068,7 +1069,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1088,7 +1089,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1108,7 +1109,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1128,7 +1129,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1148,7 +1149,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1168,7 +1169,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1188,7 +1189,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1208,7 +1209,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1230,7 +1231,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1251,7 +1252,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1273,7 +1274,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1295,7 +1296,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1317,7 +1318,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1339,7 +1340,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1360,7 +1361,7 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
@@ -1382,7 +1383,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1405,7 +1406,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1428,7 +1429,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1451,7 +1452,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1474,7 +1475,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1497,7 +1498,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1520,7 +1521,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1543,7 +1544,7 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
@@ -1566,10 +1567,10 @@ int main(void) {
           {
             REDUCTION_FINAL();
           },
-          VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+          {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
       }
     }
   }
 
-  return 0;
+  return any_fail > 0;
 }

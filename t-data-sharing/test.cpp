@@ -4,6 +4,8 @@
 
 #define Arr(x,i,j,k) ((x)[(i)*(I)*(I) + (j)*(I) + (k)])
 
+static int any_error = 0;
+
 template<const unsigned I, const unsigned P1, const unsigned P2>
 void foo_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB) {
   printf("Running device version - parallel...\n");
@@ -62,6 +64,7 @@ void foo_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -70,6 +73,7 @@ void foo_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -77,6 +81,7 @@ void foo_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -139,6 +144,7 @@ void foo_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigned *R
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -147,6 +153,7 @@ void foo_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigned *R
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -154,6 +161,7 @@ void foo_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigned *R
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -216,6 +224,7 @@ void foo_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB) {
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -224,6 +233,7 @@ void foo_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB) {
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -231,6 +241,7 @@ void foo_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB) {
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -295,6 +306,7 @@ void foo_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *Refer
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -303,6 +315,7 @@ void foo_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *Refer
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -310,6 +323,7 @@ void foo_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *Refer
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -366,6 +380,7 @@ void foo(unsigned ii) {
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (host) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -434,6 +449,7 @@ void foo_ptr_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *Refere
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -442,6 +458,7 @@ void foo_ptr_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *Refere
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -449,6 +466,7 @@ void foo_ptr_device_parallel(unsigned ii, unsigned *ReferenceA, unsigned *Refere
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -511,6 +529,7 @@ void foo_ptr_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigne
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -519,6 +538,7 @@ void foo_ptr_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigne
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -526,6 +546,7 @@ void foo_ptr_device_parallel_parallel(unsigned ii, unsigned *ReferenceA, unsigne
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -588,6 +609,7 @@ void foo_ptr_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -596,6 +618,7 @@ void foo_ptr_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -603,6 +626,7 @@ void foo_ptr_device_simd(unsigned ii, unsigned *ReferenceA, unsigned *ReferenceB
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -667,6 +691,7 @@ void foo_ptr_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *R
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (device) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -675,6 +700,7 @@ void foo_ptr_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *R
     for(unsigned i = 0; i<I*I*I; ++i)
       if (A[i] != ReferenceA[i]) {
         printf("Error A[i] != ReferenceA[i] at %08x: %08x != %08x\n", i, A[i], ReferenceA[i]);
+        any_error = 1;
         break;
       }
     
@@ -682,6 +708,7 @@ void foo_ptr_device_parallel_simd(unsigned ii, unsigned *ReferenceA, unsigned *R
     for(unsigned i = 0; i<I*I*I; ++i)
       if (B[i] != ReferenceB[i]) {
         printf("Error B[i] != ReferenceB[i] at %08x: %08x != %08x\n", i, B[i], ReferenceB[i]);
+        any_error = 1;
         break;
       }
 
@@ -739,6 +766,7 @@ void foo_ptr(unsigned ii) {
   for(unsigned i = 0; i<I*I*I; ++i) {
     if (A[i] != B[i]) {
       printf("Error (host) A[i] != B[i] at %08x: %08x != %08x\n", i, A[i], B[i]);
+      any_error = 1;
       break;
     }
   }
@@ -838,5 +866,5 @@ int main(void) {
   static_data_sharing();
 
   printf("End!\n");
-  return 0;
+  return any_error;
 }

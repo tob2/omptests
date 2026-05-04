@@ -14,6 +14,6 @@ int main()
     printf("### Success ### \n");
   else
     printf("### Error ###\n"); 
-  return 0;
+  return !Success;
 }
 

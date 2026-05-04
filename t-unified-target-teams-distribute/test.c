@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -45,6 +46,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations > #teams
@@ -83,6 +85,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   // ****************************
   // Series 2: with dist_schedule
@@ -106,6 +109,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations == #teams, dist_schedule(#iterations)
@@ -125,6 +129,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations == #teams, dist_schedule(#iterations/10), variable chunk size
@@ -146,6 +151,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations > #teams, dist_schedule(1)
@@ -165,6 +171,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations > #teams, dist_schedule(#iterations)
@@ -184,6 +191,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations > #teams, dist_schedule(#iterations/10), variable chunk size
@@ -205,6 +213,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations < #teams, dist_schedule(1)
@@ -224,6 +233,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations < #teams, dist_schedule(#iterations)
@@ -243,6 +253,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: #iterations < #teams, dist_schedule(#iterations)
@@ -264,6 +275,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   // ****************************
   // Series 3: with ds attributes
@@ -294,6 +306,7 @@ int main(void) {
   }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: firstprivate
@@ -332,6 +345,7 @@ int main(void) {
   }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: lastprivate
@@ -349,6 +363,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   // ***************************
   // Series 4: with parallel for
@@ -380,6 +395,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: blocking loop where upper bound is not a multiple of tl*nte
@@ -408,6 +424,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   // **************************
   // Series 5: collapse
@@ -441,6 +458,7 @@ int main(void) {
     }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: 3 loops
@@ -472,5 +490,7 @@ int main(void) {
 	}
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
-  return 0;
+  any_fail += fail;
+
+  return any_fail > 0;
 }

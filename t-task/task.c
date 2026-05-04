@@ -30,6 +30,7 @@
 
 int main ()
 {
+  int any_errors = 0;
   int a[N], aa[N];
   int b[N], bb[N];
   int c[N], cc[N];
@@ -79,6 +80,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#1 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: task within parallel
@@ -123,6 +125,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#2 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: multiple nested tasks in parallel region
@@ -177,6 +180,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#3 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: three successive tasks in a parallel region
@@ -228,6 +232,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#4 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: change of context when entering/exiting tasks
@@ -310,6 +315,7 @@ int main ()
   }
 
   printf("#5 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: change of context when using if clause
@@ -392,6 +398,7 @@ int main ()
   }
 
   printf("#6 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: final
@@ -446,6 +453,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#7 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: untied
@@ -500,6 +508,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#8 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: mergeaeble
@@ -554,6 +563,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#9 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: private
@@ -606,6 +616,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#10 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: depend
@@ -655,6 +666,7 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#11 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
   // Test: inverted priority
@@ -706,7 +718,8 @@ int main ()
     if (b[i] != bb[i]) printf("%4i: got b %d, expected %d, error %d\n", i, b[i], bb[i], ++errors);
   }
   printf("#12 got %d errors\n", errors);
+  any_errors += errors;
 #endif
 
-  return 0;
+  return any_errors > 0;
 }

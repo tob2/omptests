@@ -22,7 +22,7 @@ int main(void){
 #if CHECK
     check_offloading();
 #endif
-
+  int any_fail = 0;
   int fail;
   double A[N], B[N], C[N], D[N], E[N];
   double *pA, *pB, *pC, *pD, *pE;
@@ -55,6 +55,7 @@ int main(void){
     } else {
       printf ("Test update from: Succeeded\n");
     }
+    any_fail += fail;
 
     // Now modify host arrays C and D
     for(int i = 0; i < N; i++){
@@ -81,6 +82,7 @@ int main(void){
     } else {
       printf ("Test update to: Succeeded\n");
     }
+    any_fail += fail;
   }
 #endif
 
@@ -105,6 +107,7 @@ int main(void){
     } else {
       printf ("Test update from with zero-length ptrs: Succeeded\n");
     }
+    any_fail += fail;
 
     // Now modify host arrays C and D
     for(int i = 0; i < N; i++){
@@ -131,6 +134,7 @@ int main(void){
     } else {
       printf ("Test update to with zero-length ptrs: Succeeded\n");
     }
+    any_fail += fail;
   }
 #endif
 
@@ -160,6 +164,7 @@ int main(void){
     } else {
       printf ("Test update from with offsets: Succeeded\n");
     }
+    any_fail += fail;
 
     // Now modify host arrays C and D
     for(int i = 0; i < N; i++){
@@ -187,8 +192,9 @@ int main(void){
     } else {
       printf ("Test update to with offsets: Succeeded\n");
     }
+    any_fail += fail;
   }
 #endif
 
-  return 0;
+  return any_fail > 0;
 }

@@ -24,7 +24,7 @@ int main()
   }
   
   printf("--> %s <--\n",(res < 90.001 && res > 89.999) ? "success" : "error");
-  return 0;
+  return !(res < 90.001 && res > 89.999);
 }
 
 /// Presumably creates an .omp_offloading.entry

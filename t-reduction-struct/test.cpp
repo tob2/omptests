@@ -79,6 +79,7 @@ N*5 \
 }
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   struct DataTy Data;
@@ -109,9 +110,9 @@ int main(void) {
         {
           REDUCTION_FINAL();
         },
-        VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]));
+        {VERIFY(0, 1, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail;});
     }
   }
 
-  return 0;
+  return any_fail > 0;
 }

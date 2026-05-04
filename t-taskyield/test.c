@@ -65,5 +65,5 @@ int main()
     } else // if !cpuExec
     DUMP_SUCCESS(1);
 
-  return 0;
+  return fail;
 }

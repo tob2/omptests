@@ -45,6 +45,7 @@ int foo_notinbranch(int *b, int c) {
 
 int main()
 {
+  int any_fail = 0;
   check_offloading();
 
   int a[N], aa[N], b[N];
@@ -82,6 +83,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: simdlen
   fail = 0;
@@ -116,6 +118,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: linear
   fail = 0;
@@ -153,6 +156,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: aligned
   fail = 0;
@@ -190,6 +194,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: uniform
   fail = 0;
@@ -228,6 +233,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: inbranch
   fail = 0;
@@ -268,6 +274,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
   /// Test: notinbranch
   fail = 0;
@@ -306,6 +313,7 @@ int main()
     printf("failed\n");
   else
     printf("success\n");
+  any_fail += fail;
 
-  return 0;
+  return any_fail > 0;
 }

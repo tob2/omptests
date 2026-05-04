@@ -14,6 +14,7 @@ const int Y_VAL = 11;
 
 int main()
 {
+  int any_failures = 0;
   check_offloading();
 
   long cpuExec = 0;
@@ -58,6 +59,7 @@ int main()
       printf("failed %d times\n", failures);
     else
       printf("Succeeded\n");
+    any_failures += failures;
 
     /// Test team-level dependencies with increment
 #pragma omp target map(tofrom: x[:nb], y[:nb])
@@ -83,10 +85,9 @@ int main()
       printf("failed %d times\n", failures);
     else
       printf("Succeeded\n");
-    return failures;
+    any_failures += failures;
   } else {// if !cpuExec
     DUMP_SUCCESS(2);
-    return 0;
   }
+  return any_failures > 0;
 }
-

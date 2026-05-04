@@ -32,7 +32,7 @@ int t1_G1 = 2;
 
 int t1_G2 = 3;
 
-void t1(int a /* = 1 */) {
+int t1(int a /* = 1 */) {
   int A[1] = {0};
 
   #pragma omp target
@@ -46,6 +46,7 @@ void t1(int a /* = 1 */) {
     printf("Error %d != %d\n",A[0], Expected);
   else
     printf("Success!\n");
+  return A[0] != Expected;
 }
 
 //#######################################
@@ -73,7 +74,7 @@ struct t2_d2 {
 
 #pragma omp end declare target
 
-void t2(int a /* = 1 */) {
+int t2(int a /* = 1 */) {
   t2_d1 A;
   t2_d2<int> B;
   
@@ -93,6 +94,7 @@ void t2(int a /* = 1 */) {
     printf("Error %d != %d\n",A.Val, Expected);
   else
     printf("Success!\n");
+  return A.Val != Expected;
 }
 
 //#######################################
@@ -100,12 +102,12 @@ void t2(int a /* = 1 */) {
 //#######################################
 
 int main(int argc, char *argv[]) {
+  int fail = 0;
   check_offloading();
   
-  t1(argc ? 1 : 5);
-  t2(argc ? 1 : 5);
+  fail += t1(argc ? 1 : 5);
+  fail += t2(argc ? 1 : 5);
   
   printf("Done!\n");
-  return 0;
+  return fail > 0;
 }
-
