@@ -19,6 +19,7 @@ double S[M];
 double p[2];
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   INIT();
@@ -56,7 +57,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   #undef NESTED_PARALLEL_FOR_CLAUSES
   #define NESTED_PARALLEL_FOR_CLAUSES proc_bind(close)
@@ -77,7 +78,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   #undef NESTED_PARALLEL_FOR_CLAUSES
   #define NESTED_PARALLEL_FOR_CLAUSES proc_bind(spread)
@@ -98,7 +99,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: private, shared clauses on omp teams distribute parallel for with nested parallel.
@@ -127,7 +128,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) 6 + SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) 6 + SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: firstprivate clause on omp teams distribute parallel for with nested parallel.
@@ -158,7 +159,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: lastprivate clause on omp teams distribute parallel for with nested parallel.
@@ -200,7 +201,7 @@ int main(void) {
     }
     S[idx] += tmp;
   }
-  }, VERIFY(0, tms*th, S[i], (double) 2 * (N + (N/2*(N+1))) ));
+  }, {VERIFY(0, tms*th, S[i], (double) 2 * (N + (N/2*(N+1))) ); any_fail += fail; });
 
   //
   // Test: private clause on omp teams distribute parallel for with nested parallel.
@@ -230,7 +231,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) 6 + SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) 6 + SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: firstprivate clause on omp teams distribute parallel for with nested parallel.
@@ -262,7 +263,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: collapse clause on omp teams distribute parallel for with nested parallel.
@@ -290,7 +291,7 @@ int main(void) {
     }
     S[idx] += tmp;
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: ordered clause on omp teams distribute parallel for with nested parallel.
@@ -308,7 +309,7 @@ int main(void) {
   ,
   {
   },
-  VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))))
+  {VERIFY(0, tms*th, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
 
   //
   // Test: Ensure coalesced scheduling on GPU.
@@ -339,10 +340,10 @@ int main(void) {
         }
         S[idx] = tmp;
       }
-    }, VERIFY(0, tms*th, S[i], (double) 3 * (32*32 + 64*32) ));
+    }, {VERIFY(0, tms*th, S[i], (double) 3 * (32*32 + 64*32) ); any_fail += fail; });
   } else {
     DUMP_SUCCESS(1);
   }
 
-  return 0;
+  return any_fail > 0;
 }

@@ -285,6 +285,7 @@ INIT1 + INIT2 + \
 }
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   char Ac[N], Bc[N], Cc[N], Dc[N], Ec[N];
@@ -336,7 +337,7 @@ int main(void) {
         }
       }
       REDUCTION_FINAL();
-    }, VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]));
+    }, {VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -367,7 +368,7 @@ int main(void) {
         }
       }
       REDUCTION_FINAL();
-    }, VERIFY(0, 6, OUT[i], (trial+1) * 2*EXPECTED[i]));
+    }, {VERIFY(0, 6, OUT[i], (trial+1) * 2*EXPECTED[i]); any_fail += fail; });
   }
 
   //
@@ -387,7 +388,7 @@ int main(void) {
     {
       REDUCTION_FINAL();
     },
-    VERIFY(0, 6, OUT[i], (trial+1) * SUMS * EXPECTED[i]))
+    {VERIFY(0, 6, OUT[i], (trial+1) * SUMS * EXPECTED[i]); any_fail += fail; })
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -412,7 +413,7 @@ int main(void) {
         }
         _Pragma("omp barrier");
       },
-      VERIFY(0, 6, OUT[i], (trial+1) * SUMS * EXPECTED[i]))
+      {VERIFY(0, 6, OUT[i], (trial+1) * SUMS * EXPECTED[i]); any_fail += fail; })
     }
   } else {
     //
@@ -442,7 +443,7 @@ int main(void) {
       R1 += All[1000] + (Bll[1000] + Cll[1000]);
     }
     OUT[0] = R1;
-  }, VERIFY(0, 1, OUT[0], (5ll << 32)));
+  }, {VERIFY(0, 1, OUT[0], (5ll << 32)); any_fail += fail; });
 
   //
   // Test: reduction on parallel sections.
@@ -463,7 +464,7 @@ int main(void) {
       R1 += All[1000] + (Bll[1000] + Cll[1000]);
     }
     OUT[0] = R1;
-  }, VERIFY(0, 1, OUT[0], (5ll << 32)));
+  }, {VERIFY(0, 1, OUT[0], (5ll << 32)); any_fail += fail; });
 
   //
   // Test: reduction on distribute parallel for.
@@ -481,8 +482,8 @@ int main(void) {
       unsigned tm = omp_get_team_num(); // assume 6 teams
       OUT[tm] = (long long) (Rd1 + Rd2);
     }
-  }, VERIFY(0, 1, OUT[0]+OUT[1]+OUT[2]+OUT[3]+OUT[4]+OUT[5],
-            ( (2*N) << 16 ) ));
+  }, {VERIFY(0, 1, OUT[0]+OUT[1]+OUT[2]+OUT[3]+OUT[4]+OUT[5],
+            ( (2*N) << 16 ) ); any_fail += fail; });
 
   //
   // Test: reduction on target parallel.
@@ -503,7 +504,7 @@ int main(void) {
       {
         REDUCTION_FINAL();
       },
-      VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]));
+      {VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -520,7 +521,7 @@ int main(void) {
       {
         REDUCTION_FINAL();
       },
-      VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]));
+      {VERIFY(0, 6, OUT[i], (trial+1) * EXPECTED[i]); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -566,7 +567,7 @@ int main(void) {
           }
         }
       }
-    }, VERIFY(0, 1, OUT[0] + num_tests[0], 0+(trial+1)*2156) );
+    }, {VERIFY(0, 1, OUT[0] + num_tests[0], 0+(trial+1)*2156); any_fail += fail; } );
   }
 
   //
@@ -609,7 +610,7 @@ int main(void) {
           }
         }
       }
-    }, VERIFY(0, 1, OUT[0] + num_tests[0], 0+(trial+1)*2156) );
+    }, {VERIFY(0, 1, OUT[0] + num_tests[0], 0+(trial+1)*2156); any_fail += fail; } );
   }
 
   double double_lb = -DBL_MAX; //-2^1023
@@ -626,7 +627,7 @@ int main(void) {
       for (int i=0; i<1024; i++) {
         foo[0]*=0.5;
       }
-    }, VERIFY_E(0, 1, foo[0], -1.0, 0.0000001f));
+    }, {VERIFY_E(0, 1, foo[0], -1.0, 0.0000001f); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -640,7 +641,7 @@ int main(void) {
       for (int i=0; i<1024; i++) {
         foo[0]*=0.5;
       }
-    }, VERIFY_E(0, 1, foo[0], 1.0, 0.0000001f));
+    }, {VERIFY_E(0, 1, foo[0], 1.0, 0.0000001f); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -658,7 +659,7 @@ int main(void) {
       for (int i=0; i<128; i++) {
         bar[0]*=0.5;
       }
-    }, VERIFY_E(0, 1, bar[0], -1.0f, 0.0000001f));
+    }, {VERIFY_E(0, 1, bar[0], -1.0f, 0.0000001f); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
@@ -672,10 +673,10 @@ int main(void) {
       for (int i=0; i<128; i++) {
         bar[0]*=0.5;
       }
-    }, VERIFY_E(0, 1, bar[0], 1.0f, 0.0000001f));
+    }, {VERIFY_E(0, 1, bar[0], 1.0f, 0.0000001f); any_fail += fail; });
   }
   DUMP_SUCCESS(gpu_threads-max_threads);
 
-  return 0;
+  return any_fail > 0;
 }
 

@@ -19,6 +19,7 @@ double S[M];
 double p[2];
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   INIT();
@@ -55,7 +56,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   #undef NESTED_PARALLEL_FOR_CLAUSES
@@ -81,7 +82,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
   
   #undef NESTED_PARALLEL_FOR_CLAUSES
@@ -107,7 +108,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -141,7 +142,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) 6 + SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -177,7 +178,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -221,7 +222,7 @@ int main(void) {
         tmp += A[tid][i] + B[tid][i];
       }
       S[tid] += tmp;
-    }, VERIFY(0, t, S[i], (double) 2 * (N + (N/2*(N+1))) ));
+    }, {VERIFY(0, t, S[i], (double) 2 * (N + (N/2*(N+1))) ); any_fail += fail; });
   }
 
   //
@@ -256,7 +257,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) 6 + SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -293,7 +294,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -326,7 +327,7 @@ int main(void) {
       }
       S[tid] += tmp;
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -348,7 +349,7 @@ int main(void) {
     ,
     {
     },
-    VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))))
+    {VERIFY(0, t, S[i], (double) SUMS * (N/2*(N+1))); any_fail += fail; })
   }
 
   //
@@ -378,10 +379,10 @@ int main(void) {
         tmp += A[tid][i];
       }
       S[tid] = tmp;
-    }, VERIFY(0, 32, S[i], (double) 3 * 95 * 48 ));
+    }, {VERIFY(0, 32, S[i], (double) 3 * 95 * 48 ); any_fail += fail; });
   } else {
     DUMP_SUCCESS(1);
   }
   //DUMP_SUCCESS(1);
-  return 0;
+  return any_fail > 0;
 }
