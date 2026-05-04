@@ -4,19 +4,22 @@
 #pragma omp requires unified_shared_memory
 
 #define V(x,y) \
-  if ((x) != (y))\
+  if ((x) != (y)) {\
     printf("Error %d != %d\n", (x), (y));\
-  else\
+    fail = 1; \
+  } else\
     printf("Success!\n");
 #define VPTR(x,y) \
-  if ((x) != (y))\
+  if ((x) != (y)) {\
     printf("Error %p != %p\n", (x), (y));\
-  else\
+    fail = 1; \
+  } else\
     printf("Success!\n");
 
 int A;
 
 int main(void) {
+  int fail = 0;
   int Old = 1;
   int New = Old + 1;
   
@@ -46,5 +49,5 @@ int main(void) {
   VPTR(D, NewPtr);
   VPTR(E, NewPtr);
   
-  return 0;
+  return fail;
 }
