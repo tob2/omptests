@@ -435,8 +435,6 @@ int main(void) {
     }
     }, {VERIFY(0, 1, A[i], omp_is_initial_device() ? A[1] - A[1] : 2.0); any_fail += fail;});
 
-  return 0;
-
 #if 0
   //
   // Test: omp_get_initial_device(). Unspecified behavior when
