@@ -50,7 +50,9 @@ int check_results_priv(double *A, double *B){
   } \
   success += check_results(A); \
   if (success == expected) \
-    printf("Succeeded\n");
+    printf("Succeeded\n"); \
+  else \
+    any_fail += 1;
 
 #define CODE_PRIV() \
   ZERO(A); \
@@ -69,12 +71,15 @@ int check_results_priv(double *A, double *B){
   } \
   success += check_results_priv(A, B); \
   if (success == expected) \
-    printf("Succeeded\n");
+    printf("Succeeded\n"); \
+  else \
+    any_fail += 1;
 
 int main(void) {
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
+  int any_fail = 0;
   int fail = 0;
   int expected = 1;
   int success = 0;
@@ -201,6 +206,7 @@ int main(void) {
   }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 #endif
 
   //
@@ -222,6 +228,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 #endif
 
   // // ***************************
@@ -255,6 +262,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: blocking loop where upper bound is not a multiple of tl*nte
@@ -285,6 +293,7 @@ int main(void) {
 
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   // **************************
   // Series 5: collapse
@@ -322,6 +331,7 @@ int main(void) {
       }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
   //
   // Test: 3 loops
@@ -357,7 +367,8 @@ int main(void) {
         }
   if(fail) printf("Failed\n");
   else printf("Succeeded\n");
+  any_fail += fail;
 
-  return 0;
+  return any_fail > 0;
 }
 

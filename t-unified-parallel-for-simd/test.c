@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X) 
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -53,7 +54,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
   printf("B\n");
   #undef PARALLEL_FOR_CLAUSES
@@ -79,7 +80,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
   printf("C\n");
   #undef PARALLEL_FOR_CLAUSES
@@ -105,7 +106,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
   printf("D\n");
   #undef PARALLEL_FOR_CLAUSES
@@ -131,7 +132,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -165,7 +166,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -201,7 +202,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -272,7 +273,7 @@ int main(void) {
         tmp += A[i] + B[i];
       }
       S[0] += tmp;
-    }, VERIFY(0, 1, S[0], 5 * (N + (N/2*(N+1))) ));
+    }, {VERIFY(0, 1, S[0], 5 * (N + (N/2*(N+1)))); any_fail += fail;} );
   }
 
   //
@@ -305,7 +306,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], 6 + SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -341,7 +342,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -373,7 +374,7 @@ int main(void) {
       }
       S[0] += tmp;
     },
-    VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))))
+    {VERIFY(0, 1, S[0], SUMS * (N/2*(N+1))); any_fail += fail;})
   }
 
   //
@@ -405,7 +406,7 @@ int main(void) {
         tmp += A[i];
       }
       S[0] = tmp;
-    }, VERIFY(0, 1, S[0], 3 * (33*33 + 66*33) ));
+    }, {VERIFY(0, 1, S[0], 3 * (33*33 + 66*33) ); any_fail += fail;});
   }
 
   //
@@ -435,7 +436,7 @@ int main(void) {
     for(int i=0; i<N; i++)
       aa[i] += i * SUMS;
   },
-  VERIFY_ARRAY(0, N, aa, a));
+  {VERIFY_ARRAY(0, N, aa, a); any_fail += fail;});
 
   //
   // Test: lastprivate clause on omp parallel for.
@@ -463,7 +464,7 @@ int main(void) {
       aa[i] += i * SUMS;
     aa[0] += SUMS * (N - 1);
   },
-  VERIFY_ARRAY(0, N, aa, a));
+  {VERIFY_ARRAY(0, N, aa, a); any_fail += fail;});
 
   //
   // Test: lastprivate clause on omp parallel for.
@@ -489,7 +490,7 @@ int main(void) {
     for(int i=0; i<N; i++)
       aa[i] += 2 * i * SUMS;
   },
-  VERIFY_ARRAY(0, N, aa, a));
+  {VERIFY_ARRAY(0, N, aa, a); any_fail += fail;});
 
   //
   // Test: lastprivate clause on omp parallel for.
@@ -515,7 +516,7 @@ int main(void) {
     for(int i=0; i<N; i++)
       aa[i] += i * SUMS;
   },
-  VERIFY_ARRAY(0, N, aa, a));
+  {VERIFY_ARRAY(0, N, aa, a); any_fail += fail;});
 
   //
   // Test: safelen clause on omp parallel for.
@@ -542,7 +543,7 @@ int main(void) {
     for(int i=0; i<N; i++)
       aa[i] = i;
   },
-  VERIFY_ARRAY(0, N, aa, a));
+  {VERIFY_ARRAY(0, N, aa, a); any_fail += fail;});
 
-  return 0;
+  return any_fail > 0;
 }

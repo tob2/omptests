@@ -77,5 +77,5 @@ int main ()
   }
   printf("got %d errors\n", errors);
 
-  return 0;
+  return errors > 0;
 }

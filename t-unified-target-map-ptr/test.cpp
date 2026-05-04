@@ -34,6 +34,7 @@ typedef struct S {
 } S;
 
 int main(void){
+  int any_fail = 0;
   #if CHECK
     check_offloading();
   #endif
@@ -75,6 +76,7 @@ int main(void){
   } else {
     printf ("Test full extent: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FULL_ZERO
@@ -101,6 +103,7 @@ int main(void){
   } else {
     printf ("Test full extent with zero length ptrs: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
   #if FULL_ZERO_NULL
@@ -143,6 +146,7 @@ int main(void){
   } else {
     printf ("Test full extent with zero length ptrs and NULL ptr: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FULL_ZERO_IMPLICIT
@@ -168,6 +172,7 @@ int main(void){
   } else {
     printf ("Test full extent with implicit zero length ptrs: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FULL_S
@@ -191,6 +196,7 @@ int main(void){
   } else {
     printf ("Test full extent struct: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if OFFSET
@@ -216,6 +222,7 @@ int main(void){
   } else {
     printf ("Test Offset: Succeeded\n");
   }
+  any_fail += fail;
 
   // Restore original pointers
   pA = &A[0];
@@ -246,6 +253,7 @@ int main(void){
   } else {
     printf ("Test Offset struct: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FP
@@ -268,6 +276,7 @@ int main(void){
   } else {
     printf ("Test first-private: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FP_RANGES
@@ -289,6 +298,7 @@ int main(void){
   } else {
     printf ("Test first-private with ranges: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if FPPTR
@@ -310,6 +320,7 @@ int main(void){
   } else {
     printf ("Test first-private with pointers: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if DEVICEPTR
@@ -343,6 +354,7 @@ int main(void){
   } else {
     printf ("Test device_ptr: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PTR_REF
@@ -371,7 +383,8 @@ int main(void){
   } else {
     printf ("Test refs to ptrs: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
-  return 0;
+  return any_fail > 0;
 }

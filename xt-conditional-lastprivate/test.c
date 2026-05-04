@@ -14,6 +14,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   int A[N], B[N], C[N], D[N], E[N];
@@ -104,8 +105,8 @@ int main(void) {
       double tmp = q0 + q1 + q2 + q3 + q4 + \
                    q5 + q6 + q7 + q8 + q9;
       S[0] = tmp;
-    }, VERIFY(0, 1, S[0], 30710 ));
+    }, {VERIFY(0, 1, S[0], 30710 ); any_fail += fail;});
   }
 
-  return 0;
+  return any_fail > 0;
 }

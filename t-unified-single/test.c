@@ -16,6 +16,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X) 
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -49,7 +50,7 @@ int main(void) {
           B[i] += A[i];
         }
       }
-    }, VERIFY(0, N, B[i], 3*i+2));
+    }, {VERIFY(0, N, B[i], 3*i+2); any_fail += fail;});
   }
 
   //
@@ -79,7 +80,7 @@ int main(void) {
           B[i] += A[i];
         }
       }
-    }, VERIFY(0, N, B[i], 2*i+1));
+    }, {VERIFY(0, N, B[i], 2*i+1); any_fail += fail;});
   }
 
   //
@@ -110,7 +111,7 @@ int main(void) {
           B[i] += A[i];
         }
       }
-    }, VERIFY(0, N, B[i], 3*i+3));
+    }, {VERIFY(0, N, B[i], 3*i+3); any_fail += fail;});
   }
 
 #if 0
@@ -142,9 +143,9 @@ int main(void) {
       for (int i = 0; i < N; i++) {
         B[i] += A[i];
       }
-    }, VERIFY(0, N, B[i], 4*i+3));
+    }, {VERIFY(0, N, B[i], 4*i+3); any_fail += fail;});
   }
 #endif
 
-  return 0;
+  return any_fail > 0;
 }

@@ -55,9 +55,12 @@ int check_results(int t, int n, double* a_h, double* a, double* b, double* c){
     success += check_results(t, n, a_h, a, b, c); \
   } \
   if (success == expected) \
-    printf("Succeeded\n");
+    printf("Succeeded\n"); \
+  else \
+    fail = 1;
 
 int main(int argc, char *argv[]) {
+  int fail = 0;
   double * a = (double *) malloc(MAX_N * sizeof(double));
   double * a_h = (double *) malloc(MAX_N * sizeof(double));
   double * b = (double *) malloc(MAX_N * sizeof(double));
@@ -197,5 +200,5 @@ int main(int argc, char *argv[]) {
 
   #pragma omp target exit data map(release:a[:MAX_N],b[:MAX_N],c[:MAX_N])
 
-  return 0;
+  return fail;
 }

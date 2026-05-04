@@ -13,6 +13,7 @@
 #define ZERO(X) ZERO_ARRAY(N, X) 
 
 int main(void) {
+  int any_error = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -66,7 +67,8 @@ int main(void) {
       printf("Failed with %d errors\n", error);
     else
       printf("Success\n");
+    any_error += error;
   }
 
-  return 0;
+  return any_error > 0;
 }

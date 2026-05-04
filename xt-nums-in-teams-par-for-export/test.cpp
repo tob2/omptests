@@ -112,5 +112,5 @@ int  main()
   printf("  completed\n");
 
   printf("tests completed with %d errors\n", error);
-  return 0;
+  return error > 0;
 }

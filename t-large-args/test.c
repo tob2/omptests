@@ -25,6 +25,7 @@
 #define SUM400 SUM200 + SUM100(2) + SUM100(3)
 
 int main(void) {
+  int any_fail = 0;
   check_offloading();
 
   double A[N], B[N], C[N], D[N], E[N];
@@ -61,7 +62,7 @@ int main(void) {
    for (int i = 0; i < 1024; i++) {
      A[i] += SUM10(00);
    }
-  }, VERIFY(0, 1024, A[i], 70 ));
+  }, {VERIFY(0, 1024, A[i], 70 ); any_fail += fail;});
 
-  return 0;
+  return any_fail > 0;
 }

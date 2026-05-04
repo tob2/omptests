@@ -26,5 +26,5 @@ int main(void) {
   ++A[0];
 
   printf("Got %d, should be 3\n", A[0]);
-  return 0;
+  return 3 != A[0];
 }

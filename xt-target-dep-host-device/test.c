@@ -15,5 +15,5 @@ int main(int argc, char *argv[]) {
   }
   if (b==3) printf("success\n");
   else printf("horrible failure\n");
-  return EXIT_SUCCESS;
+  return b != 3;
 }

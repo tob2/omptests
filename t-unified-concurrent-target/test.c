@@ -27,6 +27,7 @@ int main(void){
 #endif
 
   int fail;
+  int any_fail = 0;
   double A[N], B[N], C[N], D[N], E[N];
   double *pA, *pB, *pC, *pD, *pE;
   int t;
@@ -57,6 +58,7 @@ int main(void){
   } else {
     printf ("Test PAR_A: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PAR_P
@@ -79,6 +81,7 @@ int main(void){
   } else {
     printf ("Test PAR_P: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PAR_1_DATA_A
@@ -104,6 +107,7 @@ int main(void){
   } else {
     printf ("Test PAR_1_DATA_A: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PAR_T_DATA_A
@@ -130,6 +134,7 @@ int main(void){
   } else {
     printf ("Test PAR_T_DATA_A: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PAR_TOFROM_A
@@ -152,6 +157,7 @@ int main(void){
   } else {
     printf ("Test PAR_TOFROM_A: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
 #if PAR_TOALL_FROM_A  
@@ -175,7 +181,8 @@ int main(void){
   } else {
     printf ("Test PAR_TOALL_FROM_A: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
-  return 0;
+  return any_fail > 0;
 }

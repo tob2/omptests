@@ -35,11 +35,11 @@ int main()
       printf("%d: a %d != %d (error %d)\n", i, a[i], aa[i], ++error);
     if (error > 10) {
       printf("abort\n");
-      return 0;
+      return 1;
     }
   }
 
   // report
   printf("done with %d errors\n", error);
-  return error;
+  return error > 0;
 }

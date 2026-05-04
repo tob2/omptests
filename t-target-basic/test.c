@@ -10,6 +10,7 @@
 #define INIT() INIT_LOOP(N, {C[i] = 1; D[i] = i; E[i] = -i;})
 
 int main(void){
+  int any_fail = 0;
   check_offloading();
 
   int fail;
@@ -35,6 +36,7 @@ int main(void){
   } else {
     printf ("Test1: Succeeded\n");
   }
+  any_fail += fail;
 #endif
 
   //
@@ -57,6 +59,7 @@ int main(void){
   } else {
     printf ("Test2: Succeeded\n");
   }
+  any_fail += fail;
 
   //
   // Test: Printf on device
@@ -77,5 +80,5 @@ int main(void){
     printf ("Parallel %d:%f\n", TT[1], D[1]);
   }
 
-  return 0;
+  return any_fail > 0;
 }
