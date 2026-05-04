@@ -456,9 +456,10 @@ int main(void) {
       printf("Error\n");
     else
       printf("Succeeded\n");
+    any_fail += fail;
   } else {
     DUMP_SUCCESS(1);
   }
 
-  return 0;
+  return any_fail > 0;
 }

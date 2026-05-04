@@ -14,6 +14,7 @@
 #define INIT() INIT_LOOP(N, {A[i] = 0; C[i] = 1; D[i] = i; E[i] = -i;})
 
 int main(void){
+  int any_fail = 0;
   #if CHECK
     check_offloading();
   #endif
@@ -73,6 +74,7 @@ int main(void){
   double *dpD = (double *) device_D - 300;
   printf("omp_target_alloc %s\n", device_A && device_C && device_D ?
       "succeeded" : "failed");
+  if (!(device_A && device_C && device_D)) any_fail += 1;
   omp_target_memcpy(dpC, pC, N*sizeof(double), 200*sizeof(double),
       20*sizeof(double), default_device_omp_target_call, omp_get_initial_device());
   omp_target_memcpy(dpD, pD, N*sizeof(double), 300*sizeof(double),
@@ -91,6 +93,7 @@ int main(void){
 
   int fail = 0;
   VERIFY(0, N, A[i], (double)(i+2));
+  any_fail += fail;
   if (fail) {
     printf ("Test omp_target_memcpy: Failed\n");
   } else {
@@ -111,6 +114,7 @@ int main(void){
     int rc = omp_target_associate_ptr(C, dpC, N*sizeof(double),
         200*sizeof(double), default_device_omp_target_call);
     printf("omp_target_associate_ptr C %s\n", !rc ? "succeeded" : "failed");
+    if (rc) any_fail += 1;
   }
   if (offloading_disabled()) {
     // If offloading is disabled just recreate the messages so that this can
@@ -122,6 +126,7 @@ int main(void){
     int rc = omp_target_associate_ptr(D, dpD, N*sizeof(double),
         300*sizeof(double), default_device_omp_target_call);
     printf("omp_target_associate_ptr D %s\n", !rc ? "succeeded" : "failed");
+    if (rc) any_fail += 1;
   }
   #pragma omp target data map(from: C, D) device(default_device)
   {
@@ -152,6 +157,7 @@ int main(void){
     printf("C is present, disassociating it...\n");
     int rc = omp_target_disassociate_ptr(C, default_device_omp_target_call);
     printf("omp_target_disassociate_ptr C %s\n", !rc ? "succeeded" : "failed");
+    if (rc) any_fail += 1;
   }
   if (offloading_disabled()) {
     printf("D is present, disassociating it...\n");
@@ -160,10 +166,12 @@ int main(void){
     printf("D is present, disassociating it...\n");
     int rc = omp_target_disassociate_ptr(D, default_device_omp_target_call);
     printf("omp_target_disassociate_ptr D %s\n", !rc ? "succeeded" : "failed");
+    if (rc) any_fail += 1;
   }
 
   fail = 0;
   VERIFY(0, N, A[i], (double)(i+2));
+  any_fail += fail;
   if (fail) {
     printf ("Test omp_target_associate_ptr: Failed\n");
   } else {
@@ -174,5 +182,5 @@ int main(void){
   omp_target_free(device_C, default_device_omp_target_call);
   omp_target_free(device_D, default_device_omp_target_call);
 
-  return 0;
+  return any_fail > 0;
 }

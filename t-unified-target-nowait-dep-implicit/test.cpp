@@ -50,5 +50,5 @@ int main() {
   if (err) printf("Errors!\n");
   else printf("Success!\n");
 
-  return 0;
+  return err;
 }
